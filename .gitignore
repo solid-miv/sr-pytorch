@@ -1,2 +1,5 @@
 # exclude the virtual environment
 virtenv/
+
+# exlude Python compiled files
+__pycache__/
