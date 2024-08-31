@@ -23,6 +23,21 @@ class SRCNN_2X(nn.Module):
     
 
 def predict_srcnn_2x(model, image_path, device):
+    """
+    Predicts the super-resolution image using the SRCNN 2x model.
+
+    Params:
+        model (torch.nn.Module): The trained SRCNN 2x model.
+        image_path (str): The path to the low-resolution image.
+        device (torch.device): The device to perform the prediction on.
+
+    Returns:
+        tuple: A tuple containing the following elements:
+            - low_res_img (PIL.Image.Image): The low-resolution input image.
+            - super_res_img (PIL.Image.Image): The super-resolution output image.
+            - low_res_shape (tuple): The shape of the low-resolution image.
+            - super_res_shape (tuple): The shape of the super-resolution image.
+    """
     model = model.to(device)
     model.eval()
 
@@ -46,6 +61,16 @@ def predict_srcnn_2x(model, image_path, device):
 
 
 def load_srcnn_2x(model_path, device):
+    """
+    Loads the SRCNN 2X model from the specified model_path and moves it to the specified device.
+
+    Params:
+        model_path (str): The path to the saved model file.
+        device (torch.device): The device to move the model to.
+
+    Returns:
+        torch.nn.Module: The loaded SRCNN 2X model.
+    """
     model = SRCNN_2X()
     model.load_state_dict(torch.load(model_path, map_location=device))
     model = model.to(device)
