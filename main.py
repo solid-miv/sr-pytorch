@@ -20,6 +20,9 @@ class SuperResolutionGUI:
         master.title("Super Resolution App")
         master.geometry("1300x600")
 
+        self.logo = tk.PhotoImage(file=os.path.join(os.getcwd(), "assets/logo.png"))
+        master.iconphoto(False, self.logo)
+
         self.create_widgets()
         self.scale_factor = 2
 
