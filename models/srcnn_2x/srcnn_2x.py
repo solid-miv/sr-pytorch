@@ -30,9 +30,7 @@ def predict_srcnn_2x(model, image_path, device):
         ToTensor(),
     ])
 
-    img = Image.open(image_path).convert('RGB')
-
-    low_res_img = img.resize((img.width // 2, img.height // 2), Image.BICUBIC)
+    low_res_img = Image.open(image_path).convert('RGB')
 
     img_tensor = transform(low_res_img).unsqueeze(0).to(device)
 
