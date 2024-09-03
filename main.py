@@ -59,6 +59,15 @@ class SuperResolutionGUI:
         self.upscaled_label = ttk.Label(self.image_frame)
         self.upscaled_label.pack(side=tk.RIGHT, padx=5)
 
+        # exit button
+        exit_button = tk.Button(self.master, text="Exit", command=self.master.quit, 
+                                bg="dark red", fg="white", font=("Arial", 10, "bold"),
+                                width=15, height=1)
+        exit_button.place(relx=1.0, rely=1.0, x=-10, y=-10, anchor="se")
+
+        # bind the button placement to window resize
+        self.master.bind("<Configure>", lambda e: exit_button.place(relx=1.0, rely=1.0, x=-10, y=-10, anchor="se"))
+
     def update_scale_factor(self):
         self.scale_factor = 4 if self.upscale_var.get() == "4x" else 2
         if hasattr(self, 'original_image'):
