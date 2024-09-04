@@ -8,10 +8,14 @@ from PIL import Image, ImageTk
 import torch
 from models.srcnn_2x.srcnn_2x import load_srcnn_2x, predict_srcnn_2x
 from models.srcnn_4x.srcnn_4x import load_srcnn_4x, predict_srcnn_4x
+from models.edsr_2x.edsr_2x import load_edsr_2x, predict_edsr_2x
+from models.edsr_4x.edsr_4x import load_edsr_4x, predict_edsr_4x
 
 # paths to models
 SRCNN_2X_PATH = os.path.join(os.getcwd(), "models/srcnn_2x/srcnn_model_2x.pth")
 SRCNN_4X_PATH = os.path.join(os.getcwd(), "models/srcnn_4x/srcnn_model_4x.pth")
+EDSR_2X_PATH = os.path.join(os.getcwd(), "models/edsr_2x/edsr_model_2x.pth")
+EDSR_4X_PATH = os.path.join(os.getcwd(), "models/edsr_4x/edsr_model_4x.pth")
 
 
 class SuperResolutionGUI:
@@ -40,7 +44,7 @@ class SuperResolutionGUI:
         # model selection
         ttk.Label(control_frame, text="Model:").pack(anchor=tk.W, pady=(10, 0))
         self.model_var = tk.StringVar(value="srcnn")
-        models = ["srcnn", "vdsr", "edsr", "srgan"]
+        models = ["srcnn", "edsr", "srgan"]
         for model in models:
             ttk.Radiobutton(control_frame, text=model, variable=self.model_var, value=model).pack(anchor=tk.W)
 
@@ -117,7 +121,14 @@ class SuperResolutionGUI:
                     model = load_srcnn_4x(SRCNN_4X_PATH, device)
                     _, super_res_img, _, _ = predict_srcnn_4x(model, self.original_image_path, device)
             elif model_name == "edsr":
-                # TODO: Implement EDSR model
+                if scale == 2:
+                    model = load_edsr_2x(EDSR_2X_PATH, device)
+                    _, super_res_img, _, _ = predict_edsr_2x(model, self.original_image_path, device)
+                elif scale == 4:
+                    model = load_edsr_4x(EDSR_4X_PATH, device)
+                    _, super_res_img, _, _ = predict_edsr_4x(model, self.original_image_path, device)
+            elif model_name == "srgan":
+                # TODO: implement SRGAN
                 pass
 
             if super_res_img is not None:
