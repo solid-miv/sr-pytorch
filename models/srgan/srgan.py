@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image
 
 # Constants
-N_RESBLK_G = 16
+N_RESBLK_G = 20
 UPSCALE = 2
 
 # Generator model for SRGAN
