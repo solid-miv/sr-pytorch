@@ -131,7 +131,7 @@ class SuperResolutionGUI:
                     _, super_res_img, _, _ = predict_edsr_4x(model, self.original_image_path, device)
             elif model_name == "srgan":
                 if scale == 2:
-                    _, super_res_img = upscale_srgan_2x(self.original_image_path, None, SRGAN_2X_PATH)
+                    _, super_res_img = upscale_srgan_2x(self.original_image_path, SRGAN_2X_PATH)
                 elif scale == 4:
                     # TODO: implement 4x SRGAN upscaling
                     pass 
