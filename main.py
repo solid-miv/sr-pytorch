@@ -3,19 +3,21 @@ You can run this script via 'python main.py' to start the GUI application.
 """
 import os
 import tkinter as tk
-from tkinter import filedialog, ttk, messagebox
+from tkinter import filedialog, ttk
 from PIL import Image, ImageTk
 import torch
 from models.srcnn_2x.srcnn_2x import load_srcnn_2x, predict_srcnn_2x
 from models.srcnn_4x.srcnn_4x import load_srcnn_4x, predict_srcnn_4x
 from models.edsr_2x.edsr_2x import load_edsr_2x, predict_edsr_2x
 from models.edsr_4x.edsr_4x import load_edsr_4x, predict_edsr_4x
+from models.srgan_2x.srgan_2x import upscale_srgan_2x, Generator, Residual_Block, PixelShufflerBlock
 
 # paths to models
 SRCNN_2X_PATH = os.path.join(os.getcwd(), "models/srcnn_2x/srcnn_model_2x.pth")
 SRCNN_4X_PATH = os.path.join(os.getcwd(), "models/srcnn_4x/srcnn_model_4x.pth")
 EDSR_2X_PATH = os.path.join(os.getcwd(), "models/edsr_2x/edsr_model_2x.pth")
 EDSR_4X_PATH = os.path.join(os.getcwd(), "models/edsr_4x/edsr_model_4x.pth")
+SRGAN_2X_PATH = os.path.join(os.getcwd(), "models/srgan_2x/G.pt")  # path to the generator model (2x)
 
 
 class SuperResolutionGUI:
@@ -128,8 +130,11 @@ class SuperResolutionGUI:
                     model = load_edsr_4x(EDSR_4X_PATH, device)
                     _, super_res_img, _, _ = predict_edsr_4x(model, self.original_image_path, device)
             elif model_name == "srgan":
-                # TODO: implement SRGAN
-                pass
+                if scale == 2:
+                    _, super_res_img = upscale_srgan_2x(self.original_image_path, None, SRGAN_2X_PATH)
+                elif scale == 4:
+                    # TODO: implement 4x SRGAN upscaling
+                    pass 
 
             if super_res_img is not None:
                 self.display_image(super_res_img, self.upscaled_label)
