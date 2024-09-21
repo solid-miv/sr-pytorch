@@ -11,6 +11,7 @@ from models.srcnn_4x.srcnn_4x import load_srcnn_4x, predict_srcnn_4x
 from models.edsr_2x.edsr_2x import load_edsr_2x, predict_edsr_2x
 from models.edsr_4x.edsr_4x import load_edsr_4x, predict_edsr_4x
 from models.srgan_2x.srgan_2x import upscale_srgan_2x, Generator, Residual_Block, PixelShufflerBlock
+from models.srgan_4x.srgan_4x import upscale_srgan_4x, Generator as Generator4x, Residual_Block as Residual_Block4x, PixelShufflerBlock as PixelShufflerBlock4x
 
 # paths to models
 SRCNN_2X_PATH = os.path.join(os.getcwd(), "models/srcnn_2x/srcnn_model_2x.pth")
@@ -18,6 +19,7 @@ SRCNN_4X_PATH = os.path.join(os.getcwd(), "models/srcnn_4x/srcnn_model_4x.pth")
 EDSR_2X_PATH = os.path.join(os.getcwd(), "models/edsr_2x/edsr_model_2x.pth")
 EDSR_4X_PATH = os.path.join(os.getcwd(), "models/edsr_4x/edsr_model_4x.pth")
 SRGAN_2X_PATH = os.path.join(os.getcwd(), "models/srgan_2x/G.pt")  # path to the generator model (2x)
+SRGAN_4X_PATH = os.path.join(os.getcwd(), "models/srgan_4x/G.pt")  # path to the generator model (4x)
 
 
 class SuperResolutionGUI:
@@ -133,8 +135,7 @@ class SuperResolutionGUI:
                 if scale == 2:
                     _, super_res_img = upscale_srgan_2x(self.original_image_path, SRGAN_2X_PATH)
                 elif scale == 4:
-                    # TODO: implement 4x SRGAN upscaling
-                    pass 
+                    _, super_res_img = upscale_srgan_4x(self.original_image_path, SRGAN_4X_PATH)
 
             if super_res_img is not None:
                 self.display_image(super_res_img, self.upscaled_label)
